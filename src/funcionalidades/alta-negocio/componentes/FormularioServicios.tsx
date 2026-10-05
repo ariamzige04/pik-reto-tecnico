@@ -11,6 +11,7 @@ interface PropiedadesFormularioServicios {
   alContinuar: () => void;
 }
 
+// usa texto en el borrador para permitir vaciar los campos numericos
 interface CamposServicio {
   nombre: string;
   duracionMinutos: string;
@@ -28,6 +29,7 @@ const formatoPrecio = new Intl.NumberFormat('es-MX', {
   currency: 'MXN',
 });
 
+/** administra los servicios antes de guardarlos en el estado general */
 export function FormularioServicios({
   servicios,
   alCambiar,

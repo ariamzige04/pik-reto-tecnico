@@ -6,6 +6,7 @@ import { FormularioDatosNegocio } from './FormularioDatosNegocio';
 import { FormularioPersonal } from './FormularioPersonal';
 import { FormularioServicios } from './FormularioServicios';
 import { FormularioUbicacionHorario } from './FormularioUbicacionHorario';
+import { ResumenAltaNegocio } from './ResumenAltaNegocio';
 import {
   DatosAltaNegocio,
   HorarioAtencion,
@@ -74,6 +75,7 @@ const datosIniciales: DatosAltaNegocio = {
   personal: [],
 };
 
+/** coordina los pasos y conserva los datos mientras el usuario navega */
 export function FlujoAltaNegocio() {
   const [pasoActual, setPasoActual] = useState(1);
   const [datosAlta, setDatosAlta] =
@@ -197,6 +199,7 @@ export function FlujoAltaNegocio() {
               setDatosAlta((actual) => ({
                 ...actual,
                 servicios,
+                // elimina asignaciones que dejaron de existir en el catalogo
                 personal: actual.personal.map((miembro) => ({
                   ...miembro,
                   idsServicios: miembro.idsServicios.filter((idServicio) =>
@@ -226,11 +229,10 @@ export function FlujoAltaNegocio() {
         )}
 
         {pasoActual === 5 && (
-          <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-6">
-            <p className="text-zinc-600">
-              El resumen y la confirmación se implementarán en el siguiente paso.
-            </p>
-          </div>
+          <ResumenAltaNegocio
+            datos={datosAlta}
+            alRegresar={() => setPasoActual(4)}
+          />
         )}
       </section>
     </main>

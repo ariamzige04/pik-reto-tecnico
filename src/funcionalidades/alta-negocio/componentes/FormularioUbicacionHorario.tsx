@@ -27,6 +27,7 @@ const nombresDias: Record<HorarioAtencion['dia'], string> = {
   domingo: 'Domingo',
 };
 
+/** captura la direccion y los horarios semanales del negocio */
 export function FormularioUbicacionHorario({
   direccion,
   horarios,

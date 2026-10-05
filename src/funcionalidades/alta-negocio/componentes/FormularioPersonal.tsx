@@ -26,6 +26,7 @@ const camposIniciales: CamposPersonal = {
   idsServicios: [],
 };
 
+/** administra el personal y sus servicios asignados */
 export function FormularioPersonal({
   personal,
   servicios,

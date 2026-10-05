@@ -13,6 +13,7 @@ interface PropiedadesFormularioDatosNegocio {
   alContinuar: () => void;
 }
 
+/** captura y valida la informacion basica del negocio */
 export function FormularioDatosNegocio({
   datos,
   alCambiar,

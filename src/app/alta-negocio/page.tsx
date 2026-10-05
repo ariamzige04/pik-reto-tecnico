@@ -1,5 +1,5 @@
-import { FormularioDatosNegocio } from '@/funcionalidades/alta-negocio/componentes/FormularioDatosNegocio';
+import { FlujoAltaNegocio } from '@/funcionalidades/alta-negocio/componentes/FlujoAltaNegocio';
 
 export default function AltaNegocio() {
-  return <FormularioDatosNegocio />;
+  return <FlujoAltaNegocio />;
 }

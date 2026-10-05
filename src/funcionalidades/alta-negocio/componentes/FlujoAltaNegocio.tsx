@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { FormularioDatosNegocio } from './FormularioDatosNegocio';
+import { FormularioServicios } from './FormularioServicios';
 import { FormularioUbicacionHorario } from './FormularioUbicacionHorario';
 import {
   DatosAltaNegocio,
@@ -68,6 +69,7 @@ const datosIniciales: DatosAltaNegocio = {
     codigoPostal: '',
   },
   horarios: horariosIniciales,
+  servicios: [],
 };
 
 export function FlujoAltaNegocio() {
@@ -79,6 +81,7 @@ export function FlujoAltaNegocio() {
     1: 'Datos del negocio',
     2: 'Ubicación y horario',
     3: 'Servicios',
+    4: 'Personal',
   };
 
   return (
@@ -128,6 +131,7 @@ export function FlujoAltaNegocio() {
             {pasoActual === 1 && 'Configura tu negocio'}
             {pasoActual === 2 && 'Ubicación y horarios'}
             {pasoActual === 3 && 'Servicios'}
+            {pasoActual === 4 && 'Personal'}
           </h1>
 
           <p className="mt-3 leading-7 text-zinc-600">
@@ -139,6 +143,9 @@ export function FlujoAltaNegocio() {
 
             {pasoActual === 3 &&
               'Ahora agregaremos los servicios que ofrece el negocio.'}
+
+            {pasoActual === 4 &&
+              'El siguiente paso permitirá agregar al personal del negocio.'}
           </p>
         </div>
 
@@ -177,9 +184,23 @@ export function FlujoAltaNegocio() {
         )}
 
         {pasoActual === 3 && (
+          <FormularioServicios
+            servicios={datosAlta.servicios}
+            alCambiar={(servicios) =>
+              setDatosAlta((actual) => ({
+                ...actual,
+                servicios,
+              }))
+            }
+            alRegresar={() => setPasoActual(2)}
+            alContinuar={() => setPasoActual(4)}
+          />
+        )}
+
+        {pasoActual === 4 && (
           <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-6">
             <p className="text-zinc-600">
-              El formulario de servicios se implementará en el siguiente paso.
+              El formulario de personal se implementará en el siguiente paso.
             </p>
           </div>
         )}

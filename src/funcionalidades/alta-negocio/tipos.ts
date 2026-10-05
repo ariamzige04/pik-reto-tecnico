@@ -34,10 +34,18 @@ export interface HorarioAtencion {
   horaCierre: string;
 }
 
+export interface Servicio {
+  id: string;
+  nombre: string;
+  duracionMinutos: number;
+  precio: number;
+}
+
 export interface DatosAltaNegocio {
   datosNegocio: DatosNegocio;
   direccion: DireccionNegocio;
   horarios: HorarioAtencion[];
+  servicios: Servicio[];
 }
 
 export interface ErroresDatosNegocio {
@@ -53,4 +61,10 @@ export interface ErroresUbicacionHorario {
   estado?: string;
   codigoPostal?: string;
   horarios?: string;
+}
+
+export interface ErroresServicio {
+  nombre?: string;
+  duracionMinutos?: string;
+  precio?: string;
 }

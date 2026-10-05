@@ -2,8 +2,10 @@ import {
   DatosNegocio,
   DireccionNegocio,
   ErroresDatosNegocio,
+  ErroresServicio,
   ErroresUbicacionHorario,
   HorarioAtencion,
+  Servicio,
 } from './tipos';
 
 export function validarDatosNegocio(
@@ -73,6 +75,31 @@ export function validarUbicacionHorario(
   if (horarioInvalido) {
     errores.horarios =
       'Revisa los horarios: la hora de cierre debe ser posterior a la apertura.';
+  }
+
+  return errores;
+}
+
+export function validarServicio(
+  servicio: Omit<Servicio, 'id'>
+): ErroresServicio {
+  const errores: ErroresServicio = {};
+
+  if (!servicio.nombre.trim()) {
+    errores.nombre = 'Ingresa el nombre del servicio.';
+  }
+
+  if (
+    !Number.isFinite(servicio.duracionMinutos) ||
+    servicio.duracionMinutos <= 0
+  ) {
+    errores.duracionMinutos = 'La duración debe ser mayor que 0.';
+  } else if (!Number.isInteger(servicio.duracionMinutos)) {
+    errores.duracionMinutos = 'Ingresa una duración en minutos completos.';
+  }
+
+  if (!Number.isFinite(servicio.precio) || servicio.precio <= 0) {
+    errores.precio = 'El precio debe ser mayor que 0.';
   }
 
   return errores;

@@ -7,6 +7,12 @@ Aplicación web construida con Next.js para demostrar dos recorridos completos d
 
 Todo funciona con datos locales y estado en memoria. No requiere base de datos, autenticación, pagos ni otros servicios externos.
 
+## Demo
+
+[Ver la aplicación en funcionamiento](https://pik-reto-tecnico.vercel.app)
+
+![Pantalla principal del reto técnico PIK](./public/captura-proyecto.png)
+
 ## Requisitos
 
 - Node.js 20.9 o superior

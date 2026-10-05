@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { negocioReservableMock } from '../mocks';
 import { DatosReservacion } from '../tipos';
 import { PerfilNegocio } from './PerfilNegocio';
@@ -43,6 +43,22 @@ const descripcionesPaso: Record<number, string> = {
 export function FlujoReservacion() {
   const [pasoActual, setPasoActual] = useState(1);
   const [datos, setDatos] = useState<DatosReservacion>(datosIniciales);
+  const contenedorFlujoRef = useRef<HTMLElement>(null);
+  const pasoAnteriorRef = useRef(pasoActual);
+
+  useEffect(() => {
+    if (pasoAnteriorRef.current === pasoActual) {
+      return;
+    }
+
+    pasoAnteriorRef.current = pasoActual;
+
+    // anuncia el nuevo contenido sin mover el foco durante la carga inicial
+    contenedorFlujoRef.current
+      ?.querySelector<HTMLHeadingElement>('h1')
+      ?.focus();
+  }, [pasoActual]);
+
   const servicioSeleccionado = negocioReservableMock.servicios.find(
     (servicio) => servicio.id === datos.idServicio
   );
@@ -54,7 +70,10 @@ export function FlujoReservacion() {
   );
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-2xl px-4 py-6 sm:py-10">
+    <main
+      ref={contenedorFlujoRef}
+      className="mx-auto min-h-screen w-full max-w-2xl px-4 py-6 sm:py-10"
+    >
       {pasoActual === 1 ? (
         <Link
           href="/"
@@ -94,7 +113,10 @@ export function FlujoReservacion() {
 
         {pasoActual > 1 && (
           <header className="mt-8">
-            <h1 className="text-3xl font-bold tracking-tight text-zinc-950">
+            <h1
+              tabIndex={-1}
+              className="text-3xl font-bold tracking-tight text-zinc-950 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-950"
+            >
               {encabezadosPaso[pasoActual]}
             </h1>
             <p className="mt-3 leading-7 text-zinc-600">

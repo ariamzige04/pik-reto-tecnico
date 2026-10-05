@@ -21,7 +21,10 @@ export function PerfilNegocio({
         <p className="text-sm font-medium text-zinc-500">
           {negocio.categoria}
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-950">
+        <h1
+          tabIndex={-1}
+          className="mt-2 text-3xl font-bold tracking-tight text-zinc-950 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-950"
+        >
           {negocio.nombre}
         </h1>
         <p className="mt-3 leading-7 text-zinc-600">

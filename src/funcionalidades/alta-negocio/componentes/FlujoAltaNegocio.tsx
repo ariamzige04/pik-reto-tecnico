@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormularioDatosNegocio } from './FormularioDatosNegocio';
 import { FormularioPersonal } from './FormularioPersonal';
 import { FormularioServicios } from './FormularioServicios';
@@ -80,6 +80,21 @@ export function FlujoAltaNegocio() {
   const [pasoActual, setPasoActual] = useState(1);
   const [datosAlta, setDatosAlta] =
     useState<DatosAltaNegocio>(datosIniciales);
+  const contenedorFlujoRef = useRef<HTMLElement>(null);
+  const pasoAnteriorRef = useRef(pasoActual);
+
+  useEffect(() => {
+    if (pasoAnteriorRef.current === pasoActual) {
+      return;
+    }
+
+    pasoAnteriorRef.current = pasoActual;
+
+    // anuncia el nuevo contenido sin mover el foco durante la carga inicial
+    contenedorFlujoRef.current
+      ?.querySelector<HTMLHeadingElement>('h1')
+      ?.focus();
+  }, [pasoActual]);
 
   const titulosPaso: Record<number, string> = {
     1: 'Datos del negocio',
@@ -90,7 +105,10 @@ export function FlujoAltaNegocio() {
   };
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-2xl px-4 py-6 sm:py-10">
+    <main
+      ref={contenedorFlujoRef}
+      className="mx-auto min-h-screen w-full max-w-2xl px-4 py-6 sm:py-10"
+    >
       {pasoActual === 1 ? (
         <Link
           href="/"
@@ -132,7 +150,10 @@ export function FlujoAltaNegocio() {
         </div>
 
         <div className="mt-8">
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-950">
+          <h1
+            tabIndex={-1}
+            className="text-3xl font-bold tracking-tight text-zinc-950 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-950"
+          >
             {pasoActual === 1 && 'Configura tu negocio'}
             {pasoActual === 2 && 'Ubicación y horarios'}
             {pasoActual === 3 && 'Servicios'}

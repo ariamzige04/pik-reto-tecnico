@@ -1,36 +1,161 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PIK - Reto técnico
 
-## Getting Started
+Aplicación web construida con Next.js para demostrar dos recorridos completos de un marketplace de belleza y bienestar:
 
-First, run the development server:
+- alta de un negocio;
+- reservación de una cita.
+
+Todo funciona con datos locales y estado en memoria. No requiere base de datos, autenticación, pagos ni otros servicios externos.
+
+## Requisitos
+
+- Node.js 20.9 o superior
+- npm
+
+## Cómo correr el proyecto
+
+1. Clona el repositorio y entra a la carpeta del proyecto.
+2. Instala las dependencias:
+
+```bash
+npm install
+```
+
+3. Inicia el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+En PowerShell puedes usar `npm.cmd run dev` si la política de ejecución bloquea `npm`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. Abre [http://localhost:3000](http://localhost:3000).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Para comprobar la versión de producción:
 
-## Learn More
+```bash
+npm run lint
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Rutas principales
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `/`: acceso a los dos recorridos.
+- `/alta-negocio`: wizard de alta de negocio.
+- `/negocio/studio-nova`: perfil de ejemplo y reservación de cita.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Funcionalidades
 
-## Deploy on Vercel
+### Alta de negocio
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+El alta conserva toda la información en un estado general mientras se avanza o se regresa entre cinco pasos:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. datos del negocio: nombre, categoría y teléfono;
+2. ubicación y horarios semanales;
+3. servicios: alta, edición y eliminación con nombre, duración y precio;
+4. personal: alta, edición y eliminación con asignación de servicios;
+5. resumen de la información y confirmación.
+
+Los formularios validan los campos obligatorios y evitan avanzar cuando falta información. Los servicios y el personal incluyen estados vacíos, y la confirmación muestra un estado de éxito.
+
+### Reservación de cita
+
+La reservación utiliza un negocio simulado y recorre cinco pasos:
+
+1. perfil del negocio y catálogo de servicios;
+2. selección de servicio;
+3. selección de una persona que puede realizar ese servicio;
+4. selección de fecha y hora, con horarios ocupados deshabilitados;
+5. resumen y confirmación de la cita.
+
+Las selecciones se conservan al regresar. Si se cambia el servicio o el profesional, se limpian las elecciones dependientes para evitar combinaciones inválidas.
+
+## Organización del proyecto
+
+```text
+src/
+|-- app/
+|   |-- alta-negocio/
+|   |-- negocio/studio-nova/
+|   |-- globals.css
+|   |-- layout.tsx
+|   `-- page.tsx
+`-- funcionalidades/
+    |-- alta-negocio/
+    |   |-- componentes/
+    |   |-- identificadores.ts
+    |   |-- tipos.ts
+    |   `-- validaciones.ts
+    `-- reservacion/
+        |-- componentes/
+        |-- mocks.ts
+        `-- tipos.ts
+```
+
+Las rutas viven en `src/app` y se mantienen como Server Components sencillos. La lógica específica se agrupa por dominio en `src/funcionalidades`, lo que evita mezclar el alta con la reservación. Solo los componentes que necesitan estado, eventos o formularios usan Client Components.
+
+Los tipos compartidos de cada recorrido están separados de la interfaz. Las validaciones del alta viven en un archivo propio y los datos simulados de reservación se concentran en `mocks.ts`.
+
+## Decisiones principales de UI/UX
+
+- enfoque mobile-first, con contenido en una sola columna y botones táctiles de al menos 44 píxeles;
+- indicador de paso y barra de progreso para comunicar ubicación y avance;
+- acciones principales de ancho completo en celular y distribución horizontal en pantallas mayores;
+- validaciones junto al campo correspondiente y mensajes generales cuando falta una selección;
+- estados seleccionados visibles, horarios ocupados deshabilitados y etiquetas accesibles;
+- botones para regresar sin perder la información ya capturada;
+- estados vacíos para servicios y personal, y mensajes claros al confirmar cada recorrido.
+
+La aplicación no simula esperas porque todos los datos son locales y síncronos. Un estado de carga cobraría sentido al sustituir los mocks por una API.
+
+## Cómo comprobar cada paso
+
+### Alta de negocio
+
+1. En datos del negocio, intenta continuar con campos vacíos; después captura un nombre, una categoría y un teléfono de 10 dígitos.
+2. En ubicación y horarios, comprueba campos obligatorios, código postal de 5 dígitos, al menos un día abierto y cierre posterior a la apertura.
+3. En servicios, verifica el estado vacío, las validaciones de nombre, duración y precio mayores que cero, y las acciones de agregar, editar y eliminar. No debe avanzar sin al menos un servicio.
+4. En personal, agrega una persona y asígnale uno o más servicios; verifica también editar, eliminar y la validación que impide avanzar sin personal.
+5. En el resumen, revisa todos los datos, regresa a pasos anteriores para confirmar que se conservaron y finaliza hasta ver `Negocio registrado`.
+
+### Reservación de cita
+
+1. En el perfil, revisa la información del negocio y su lista de servicios.
+2. Intenta continuar sin servicio y luego selecciona uno.
+3. Comprueba que solo aparezca personal compatible e intenta continuar sin seleccionar a nadie.
+4. Selecciona una fecha; confirma que los horarios ocupados estén deshabilitados y que no sea posible continuar sin una hora disponible.
+5. Revisa el resumen, regresa para comprobar que la selección se conserva y confirma hasta ver `Cita confirmada`.
+
+También conviene repetir ambos recorridos con el modo de dispositivo móvil del navegador.
+
+## Uso de inteligencia artificial
+
+Se utilizó IA como apoyo durante el desarrollo para:
+
+- revisar la arquitectura existente antes de modificarla;
+- proponer una separación sencilla de componentes, tipos, validaciones y mocks;
+- apoyar la implementación de los recorridos;
+- detectar y corregir problemas encontrados durante las pruebas manuales;
+- revisar lint, TypeScript, build y documentación.
+
+Las decisiones se adaptaron al código del proyecto y cada cambio se revisó manualmente. La solución se mantuvo deliberadamente sencilla para poder explicar y defender su funcionamiento.
+
+## Qué agregaría en una segunda versión
+
+- persistencia mediante una API y una base de datos;
+- autenticación y roles para negocios, personal y clientes;
+- disponibilidad calculada con duración del servicio, horario real y zona horaria;
+- estados de carga y recuperación ante errores de red;
+- pruebas unitarias, de componentes y de recorridos completos;
+- mejoras adicionales de accesibilidad y navegación por teclado;
+- confirmaciones por correo o mensajería y pagos reales;
+- imágenes, reseñas y administración del perfil del negocio.
+
+## Stack
+
+- Next.js 16 con App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- ESLint

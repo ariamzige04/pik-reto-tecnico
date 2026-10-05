@@ -41,11 +41,18 @@ export interface Servicio {
   precio: number;
 }
 
+export interface MiembroPersonal {
+  id: string;
+  nombre: string;
+  idsServicios: string[];
+}
+
 export interface DatosAltaNegocio {
   datosNegocio: DatosNegocio;
   direccion: DireccionNegocio;
   horarios: HorarioAtencion[];
   servicios: Servicio[];
+  personal: MiembroPersonal[];
 }
 
 export interface ErroresDatosNegocio {
@@ -67,4 +74,9 @@ export interface ErroresServicio {
   nombre?: string;
   duracionMinutos?: string;
   precio?: string;
+}
+
+export interface ErroresMiembroPersonal {
+  nombre?: string;
+  servicios?: string;
 }

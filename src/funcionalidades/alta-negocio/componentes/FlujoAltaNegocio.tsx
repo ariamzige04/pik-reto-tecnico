@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { FormularioDatosNegocio } from './FormularioDatosNegocio';
+import { FormularioPersonal } from './FormularioPersonal';
 import { FormularioServicios } from './FormularioServicios';
 import { FormularioUbicacionHorario } from './FormularioUbicacionHorario';
 import {
@@ -70,6 +71,7 @@ const datosIniciales: DatosAltaNegocio = {
   },
   horarios: horariosIniciales,
   servicios: [],
+  personal: [],
 };
 
 export function FlujoAltaNegocio() {
@@ -82,6 +84,7 @@ export function FlujoAltaNegocio() {
     2: 'Ubicación y horario',
     3: 'Servicios',
     4: 'Personal',
+    5: 'Resumen',
   };
 
   return (
@@ -132,6 +135,7 @@ export function FlujoAltaNegocio() {
             {pasoActual === 2 && 'Ubicación y horarios'}
             {pasoActual === 3 && 'Servicios'}
             {pasoActual === 4 && 'Personal'}
+            {pasoActual === 5 && 'Resumen y confirmación'}
           </h1>
 
           <p className="mt-3 leading-7 text-zinc-600">
@@ -145,7 +149,10 @@ export function FlujoAltaNegocio() {
               'Ahora agregaremos los servicios que ofrece el negocio.'}
 
             {pasoActual === 4 &&
-              'El siguiente paso permitirá agregar al personal del negocio.'}
+              'Agrega al personal y asigna los servicios que puede atender.'}
+
+            {pasoActual === 5 &&
+              'Revisa la información antes de confirmar el alta.'}
           </p>
         </div>
 
@@ -190,6 +197,12 @@ export function FlujoAltaNegocio() {
               setDatosAlta((actual) => ({
                 ...actual,
                 servicios,
+                personal: actual.personal.map((miembro) => ({
+                  ...miembro,
+                  idsServicios: miembro.idsServicios.filter((idServicio) =>
+                    servicios.some((servicio) => servicio.id === idServicio)
+                  ),
+                })),
               }))
             }
             alRegresar={() => setPasoActual(2)}
@@ -198,9 +211,24 @@ export function FlujoAltaNegocio() {
         )}
 
         {pasoActual === 4 && (
+          <FormularioPersonal
+            personal={datosAlta.personal}
+            servicios={datosAlta.servicios}
+            alCambiar={(personal) =>
+              setDatosAlta((actual) => ({
+                ...actual,
+                personal,
+              }))
+            }
+            alRegresar={() => setPasoActual(3)}
+            alContinuar={() => setPasoActual(5)}
+          />
+        )}
+
+        {pasoActual === 5 && (
           <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-6">
             <p className="text-zinc-600">
-              El formulario de personal se implementará en el siguiente paso.
+              El resumen y la confirmación se implementarán en el siguiente paso.
             </p>
           </div>
         )}

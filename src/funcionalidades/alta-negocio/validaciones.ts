@@ -2,9 +2,11 @@ import {
   DatosNegocio,
   DireccionNegocio,
   ErroresDatosNegocio,
+  ErroresMiembroPersonal,
   ErroresServicio,
   ErroresUbicacionHorario,
   HorarioAtencion,
+  MiembroPersonal,
   Servicio,
 } from './tipos';
 
@@ -100,6 +102,22 @@ export function validarServicio(
 
   if (!Number.isFinite(servicio.precio) || servicio.precio <= 0) {
     errores.precio = 'El precio debe ser mayor que 0.';
+  }
+
+  return errores;
+}
+
+export function validarMiembroPersonal(
+  miembro: Omit<MiembroPersonal, 'id'>
+): ErroresMiembroPersonal {
+  const errores: ErroresMiembroPersonal = {};
+
+  if (!miembro.nombre.trim()) {
+    errores.nombre = 'Ingresa el nombre de la persona.';
+  }
+
+  if (miembro.idsServicios.length === 0) {
+    errores.servicios = 'Selecciona al menos un servicio.';
   }
 
   return errores;

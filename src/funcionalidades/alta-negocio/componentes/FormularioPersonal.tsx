@@ -1,12 +1,9 @@
-'use client';
+"use client";
 
-import { FormEvent, useState } from 'react';
-import {
-  ErroresMiembroPersonal,
-  MiembroPersonal,
-  Servicio,
-} from '../tipos';
-import { validarMiembroPersonal } from '../validaciones';
+import { FormEvent, useState } from "react";
+import { generarIdentificador } from "../identificadores";
+import { ErroresMiembroPersonal, MiembroPersonal, Servicio } from "../tipos";
+import { validarMiembroPersonal } from "../validaciones";
 
 interface PropiedadesFormularioPersonal {
   personal: MiembroPersonal[];
@@ -22,7 +19,7 @@ interface CamposPersonal {
 }
 
 const camposIniciales: CamposPersonal = {
-  nombre: '',
+  nombre: "",
   idsServicios: [],
 };
 
@@ -35,11 +32,11 @@ export function FormularioPersonal({
   alContinuar,
 }: PropiedadesFormularioPersonal) {
   const [campos, setCampos] = useState<CamposPersonal>(camposIniciales);
-  const [miembroEditandoId, setMiembroEditandoId] = useState<
-    string | null
-  >(null);
+  const [miembroEditandoId, setMiembroEditandoId] = useState<string | null>(
+    null,
+  );
   const [errores, setErrores] = useState<ErroresMiembroPersonal>({});
-  const [errorLista, setErrorLista] = useState('');
+  const [errorLista, setErrorLista] = useState("");
 
   function limpiarFormulario() {
     setCampos(camposIniciales);
@@ -76,20 +73,20 @@ export function FormularioPersonal({
         personal.map((miembro) =>
           miembro.id === miembroEditandoId
             ? { ...datosMiembro, id: miembro.id }
-            : miembro
-        )
+            : miembro,
+        ),
       );
     } else {
       alCambiar([
         ...personal,
         {
           ...datosMiembro,
-          id: crypto.randomUUID(),
+          id: generarIdentificador("personal"),
         },
       ]);
     }
 
-    setErrorLista('');
+    setErrorLista("");
     limpiarFormulario();
   }
 
@@ -112,16 +109,16 @@ export function FormularioPersonal({
 
   function manejarContinuar() {
     if (personal.length === 0) {
-      setErrorLista('Agrega al menos una persona para continuar.');
+      setErrorLista("Agrega al menos una persona para continuar.");
       return;
     }
 
     if (personal.some((miembro) => miembro.idsServicios.length === 0)) {
-      setErrorLista('Asigna al menos un servicio a cada persona.');
+      setErrorLista("Asigna al menos un servicio a cada persona.");
       return;
     }
 
-    setErrorLista('');
+    setErrorLista("");
     alContinuar();
   }
 
@@ -141,7 +138,7 @@ export function FormularioPersonal({
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold text-zinc-950">
-              {miembroEditandoId ? 'Editar persona' : 'Agregar persona'}
+              {miembroEditandoId ? "Editar persona" : "Agregar persona"}
             </h2>
             <p className="mt-2 text-sm leading-6 text-zinc-600">
               Indica quién atiende y qué servicios puede realizar.
@@ -173,7 +170,7 @@ export function FormularioPersonal({
             placeholder="Ej. Daniela Ruiz"
             aria-invalid={Boolean(errores.nombre)}
             aria-describedby={
-              errores.nombre ? 'error-personal-nombre' : undefined
+              errores.nombre ? "error-personal-nombre" : undefined
             }
             onChange={(evento) =>
               setCampos((actual) => ({
@@ -184,10 +181,7 @@ export function FormularioPersonal({
             className="mt-2 min-h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 outline-none transition placeholder:text-zinc-400 focus:border-zinc-950 focus:ring-2 focus:ring-zinc-950/10"
           />
           {errores.nombre && (
-            <p
-              id="error-personal-nombre"
-              className="mt-2 text-sm text-red-600"
-            >
+            <p id="error-personal-nombre" className="mt-2 text-sm text-red-600">
               {errores.nombre}
             </p>
           )}
@@ -196,7 +190,7 @@ export function FormularioPersonal({
         <fieldset
           className="mt-6"
           aria-describedby={
-            errores.servicios ? 'error-personal-servicios' : undefined
+            errores.servicios ? "error-personal-servicios" : undefined
           }
         >
           <legend className="text-sm font-medium text-zinc-900">
@@ -234,7 +228,7 @@ export function FormularioPersonal({
           type="submit"
           className="mt-6 min-h-12 w-full rounded-xl bg-zinc-950 px-6 font-medium text-white transition hover:bg-zinc-800 sm:w-auto"
         >
-          {miembroEditandoId ? 'Guardar cambios' : 'Agregar persona'}
+          {miembroEditandoId ? "Guardar cambios" : "Agregar persona"}
         </button>
       </form>
 
@@ -247,15 +241,13 @@ export function FormularioPersonal({
             Personal agregado
           </h2>
           <span className="text-sm text-zinc-500">
-            {personal.length} {personal.length === 1 ? 'persona' : 'personas'}
+            {personal.length} {personal.length === 1 ? "persona" : "personas"}
           </span>
         </div>
 
         {personal.length === 0 ? (
           <div className="mt-4 rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-8 text-center">
-            <p className="font-medium text-zinc-900">
-              Aún no hay personal
-            </p>
+            <p className="font-medium text-zinc-900">Aún no hay personal</p>
             <p className="mt-2 text-sm leading-6 text-zinc-600">
               Agrega a la primera persona y asígnale sus servicios.
             </p>
@@ -273,8 +265,8 @@ export function FormularioPersonal({
                       {miembro.nombre}
                     </h3>
                     <p className="mt-1 text-sm leading-6 text-zinc-600">
-                      {nombresServicios(miembro.idsServicios).join(', ') ||
-                        'Sin servicios asignados'}
+                      {nombresServicios(miembro.idsServicios).join(", ") ||
+                        "Sin servicios asignados"}
                     </p>
                   </div>
 
@@ -303,10 +295,7 @@ export function FormularioPersonal({
       </section>
 
       {errorLista && (
-        <p
-          className="mt-5 text-sm font-medium text-red-600"
-          role="alert"
-        >
+        <p className="mt-5 text-sm font-medium text-red-600" role="alert">
           {errorLista}
         </p>
       )}

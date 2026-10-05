@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import { generarIdentificador } from '../identificadores';
 import { ErroresServicio, Servicio } from '../tipos';
 import { validarServicio } from '../validaciones';
 
@@ -78,7 +79,7 @@ export function FormularioServicios({
         ...servicios,
         {
           ...datosServicio,
-          id: crypto.randomUUID(),
+          id: generarIdentificador('servicio'),
         },
       ]);
     }

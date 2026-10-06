@@ -1,6 +1,8 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import { EmptyState } from '@/shared/components/EmptyState';
+import { StepActions } from '@/shared/components/StepActions';
 import { generarIdentificador } from '../identificadores';
 import { ErroresServicio, Servicio } from '../types';
 import { validarServicio } from '../validators';
@@ -288,14 +290,10 @@ export function FormularioServicios({
         </div>
 
         {servicios.length === 0 ? (
-          <div className="mt-4 rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-8 text-center">
-            <p className="font-medium text-zinc-900">
-              Aún no hay servicios
-            </p>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">
-              Usa el formulario para agregar el primer servicio del negocio.
-            </p>
-          </div>
+          <EmptyState
+            titulo="Aún no hay servicios"
+            descripcion="Usa el formulario para agregar el primer servicio del negocio."
+          />
         ) : (
           <ul className="mt-4 space-y-3">
             {servicios.map((servicio) => (
@@ -347,22 +345,10 @@ export function FormularioServicios({
         </p>
       )}
 
-      <div className="mt-8 flex flex-col-reverse gap-3 border-t border-zinc-200 pt-6 sm:flex-row sm:justify-between">
-        <button
-          type="button"
-          onClick={alRegresar}
-          className="min-h-12 rounded-xl border border-zinc-300 bg-white px-6 font-medium text-zinc-900 hover:bg-zinc-50"
-        >
-          Regresar
-        </button>
-        <button
-          type="button"
-          onClick={manejarContinuar}
-          className="min-h-12 rounded-xl bg-zinc-950 px-6 font-medium text-white hover:bg-zinc-800"
-        >
-          Continuar
-        </button>
-      </div>
+      <StepActions
+        alRegresar={alRegresar}
+        alAccionPrincipal={manejarContinuar}
+      />
     </div>
   );
 }

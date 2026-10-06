@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { EmptyState } from "@/shared/components/EmptyState";
+import { StepActions } from "@/shared/components/StepActions";
 import { generarIdentificador } from "../identificadores";
 import { ErroresMiembroPersonal, MiembroPersonal, Servicio } from "../types";
 import { validarMiembroPersonal } from "../validators";
@@ -246,12 +248,10 @@ export function FormularioPersonal({
         </div>
 
         {personal.length === 0 ? (
-          <div className="mt-4 rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-8 text-center">
-            <p className="font-medium text-zinc-900">Aún no hay personal</p>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">
-              Agrega a la primera persona y asígnale sus servicios.
-            </p>
-          </div>
+          <EmptyState
+            titulo="Aún no hay personal"
+            descripcion="Agrega a la primera persona y asígnale sus servicios."
+          />
         ) : (
           <ul className="mt-4 space-y-3">
             {personal.map((miembro) => (
@@ -300,22 +300,10 @@ export function FormularioPersonal({
         </p>
       )}
 
-      <div className="mt-8 flex flex-col-reverse gap-3 border-t border-zinc-200 pt-6 sm:flex-row sm:justify-between">
-        <button
-          type="button"
-          onClick={alRegresar}
-          className="min-h-12 rounded-xl border border-zinc-300 bg-white px-6 font-medium text-zinc-900 hover:bg-zinc-50"
-        >
-          Regresar
-        </button>
-        <button
-          type="button"
-          onClick={manejarContinuar}
-          className="min-h-12 rounded-xl bg-zinc-950 px-6 font-medium text-white hover:bg-zinc-800"
-        >
-          Continuar
-        </button>
-      </div>
+      <StepActions
+        alRegresar={alRegresar}
+        alAccionPrincipal={manejarContinuar}
+      />
     </div>
   );
 }

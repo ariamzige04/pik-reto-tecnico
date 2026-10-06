@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import { StepHeader } from '@/shared/components/StepHeader';
+import { useStepFocus } from '@/shared/hooks/useStepFocus';
 import { FormularioDatosNegocio } from './FormularioDatosNegocio';
 import { FormularioPersonal } from './FormularioPersonal';
 import { FormularioServicios } from './FormularioServicios';
@@ -80,21 +82,7 @@ export function FlujoAltaNegocio() {
   const [pasoActual, setPasoActual] = useState(1);
   const [datosAlta, setDatosAlta] =
     useState<DatosAltaNegocio>(datosIniciales);
-  const contenedorFlujoRef = useRef<HTMLElement>(null);
-  const pasoAnteriorRef = useRef(pasoActual);
-
-  useEffect(() => {
-    if (pasoAnteriorRef.current === pasoActual) {
-      return;
-    }
-
-    pasoAnteriorRef.current = pasoActual;
-
-    // anuncia el nuevo contenido sin mover el foco durante la carga inicial
-    contenedorFlujoRef.current
-      ?.querySelector<HTMLHeadingElement>('h1')
-      ?.focus();
-  }, [pasoActual]);
+  const contenedorFlujoRef = useStepFocus(pasoActual);
 
   const titulosPaso: Record<number, string> = {
     1: 'Datos del negocio',
@@ -127,27 +115,11 @@ export function FlujoAltaNegocio() {
       )}
 
       <section className="mt-6">
-        <div className="flex items-center justify-between gap-4">
-          <p className="text-sm font-medium text-zinc-600">
-            Paso {pasoActual} de 5
-          </p>
-
-          <span className="text-sm text-zinc-500">
-            {titulosPaso[pasoActual]}
-          </span>
-        </div>
-
-        <div
-          className="mt-3 h-2 overflow-hidden rounded-full bg-zinc-200"
-          aria-hidden="true"
-        >
-          <div
-            className="h-full rounded-full bg-zinc-950 transition-all"
-            style={{
-              width: `${pasoActual * 20}%`,
-            }}
-          />
-        </div>
+        <StepHeader
+          pasoActual={pasoActual}
+          totalPasos={5}
+          etiqueta={titulosPaso[pasoActual]}
+        />
 
         <div className="mt-8">
           <h1

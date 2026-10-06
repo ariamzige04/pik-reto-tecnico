@@ -87,21 +87,24 @@ src/
 |   |-- globals.css
 |   |-- layout.tsx
 |   `-- page.tsx
-`-- funcionalidades/
-    |-- alta-negocio/
-    |   |-- components/
-    |   |-- identificadores.ts
-    |   |-- types.ts
-    |   `-- validators.ts
-    `-- reservacion/
-        |-- components/
-        |-- mocks.ts
-        `-- types.ts
+|-- funcionalidades/
+|   |-- alta-negocio/
+|   |   |-- components/
+|   |   |-- identificadores.ts
+|   |   |-- types.ts
+|   |   `-- validators.ts
+|   `-- reservacion/
+|       |-- components/
+|       |-- mocks.ts
+|       `-- types.ts
+`-- shared/
+    |-- components/
+    `-- hooks/
 ```
 
 Las rutas viven en `src/app` y se mantienen como Server Components sencillos. La lógica específica se agrupa por dominio en `src/funcionalidades`, lo que evita mezclar el alta con la reservación. Solo los componentes que necesitan estado, eventos o formularios usan Client Components.
 
-Los tipos compartidos de cada recorrido están separados de la interfaz. Las validaciones del alta viven en un archivo propio y los datos simulados de reservación se concentran en `mocks.ts`.
+Los tipos compartidos de cada recorrido están separados de la interfaz. Las validaciones del alta viven en un archivo propio y los datos simulados de reservación se concentran en `mocks.ts`. Las piezas visuales y de accesibilidad reutilizadas por ambos recorridos viven en `src/shared`.
 
 ## Decisiones principales de UI/UX
 

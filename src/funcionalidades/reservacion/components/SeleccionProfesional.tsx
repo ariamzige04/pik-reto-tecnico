@@ -1,9 +1,9 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { ProfesionalDisponible } from '../tipos';
+import { ProfesionalDisponible } from '../types';
 
-interface PropiedadesSeleccionProfesional {
+interface SeleccionProfesionalProps {
   profesionales: ProfesionalDisponible[];
   idSeleccionado: string;
   alSeleccionar: (idProfesional: string) => void;
@@ -18,7 +18,7 @@ export function SeleccionProfesional({
   alSeleccionar,
   alRegresar,
   alContinuar,
-}: PropiedadesSeleccionProfesional) {
+}: SeleccionProfesionalProps) {
   const [error, setError] = useState('');
 
   function manejarEnvio(evento: FormEvent<HTMLFormElement>) {

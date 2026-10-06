@@ -6,9 +6,9 @@ import {
   NegocioReservable,
   ProfesionalDisponible,
   ServicioReservable,
-} from '../tipos';
+} from '../types';
 
-interface PropiedadesResumenReservacion {
+interface ResumenReservacionProps {
   negocio: NegocioReservable;
   servicio: ServicioReservable;
   profesional: ProfesionalDisponible;
@@ -39,7 +39,7 @@ export function ResumenReservacion({
   fecha,
   hora,
   alRegresar,
-}: PropiedadesResumenReservacion) {
+}: ResumenReservacionProps) {
   const [confirmada, setConfirmada] = useState(false);
 
   if (confirmada) {

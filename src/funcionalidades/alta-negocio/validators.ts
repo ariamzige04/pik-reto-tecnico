@@ -8,7 +8,7 @@ import {
   HorarioAtencion,
   MiembroPersonal,
   Servicio,
-} from './tipos';
+} from './types';
 
 export function validarDatosNegocio(
   datos: DatosNegocio

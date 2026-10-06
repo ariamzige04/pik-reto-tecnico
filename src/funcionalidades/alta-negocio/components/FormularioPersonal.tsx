@@ -2,10 +2,10 @@
 
 import { FormEvent, useState } from "react";
 import { generarIdentificador } from "../identificadores";
-import { ErroresMiembroPersonal, MiembroPersonal, Servicio } from "../tipos";
-import { validarMiembroPersonal } from "../validaciones";
+import { ErroresMiembroPersonal, MiembroPersonal, Servicio } from "../types";
+import { validarMiembroPersonal } from "../validators";
 
-interface PropiedadesFormularioPersonal {
+interface FormularioPersonalProps {
   personal: MiembroPersonal[];
   servicios: Servicio[];
   alCambiar: (personal: MiembroPersonal[]) => void;
@@ -30,7 +30,7 @@ export function FormularioPersonal({
   alCambiar,
   alRegresar,
   alContinuar,
-}: PropiedadesFormularioPersonal) {
+}: FormularioPersonalProps) {
   const [campos, setCampos] = useState<CamposPersonal>(camposIniciales);
   const [miembroEditandoId, setMiembroEditandoId] = useState<string | null>(
     null,

@@ -1,6 +1,6 @@
-import { NegocioReservable } from '../tipos';
+import { NegocioReservable } from '../types';
 
-interface PropiedadesPerfilNegocio {
+interface PerfilNegocioProps {
   negocio: NegocioReservable;
   alReservar: () => void;
 }
@@ -14,7 +14,7 @@ const formatoPrecio = new Intl.NumberFormat('es-MX', {
 export function PerfilNegocio({
   negocio,
   alReservar,
-}: PropiedadesPerfilNegocio) {
+}: PerfilNegocioProps) {
   return (
     <div className="mt-8 space-y-6">
       <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-7">

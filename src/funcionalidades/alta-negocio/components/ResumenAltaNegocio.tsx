@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { DatosAltaNegocio, DiaSemana } from '../tipos';
+import { DatosAltaNegocio, DiaSemana } from '../types';
 
-interface PropiedadesResumenAltaNegocio {
+interface ResumenAltaNegocioProps {
   datos: DatosAltaNegocio;
   alRegresar: () => void;
 }
@@ -38,7 +38,7 @@ const formatoPrecio = new Intl.NumberFormat('es-MX', {
 export function ResumenAltaNegocio({
   datos,
   alRegresar,
-}: PropiedadesResumenAltaNegocio) {
+}: ResumenAltaNegocioProps) {
   // la confirmacion es local porque el reto no utiliza servicios externos
   const [confirmado, setConfirmado] = useState(false);
 

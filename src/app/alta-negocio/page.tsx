@@ -1,4 +1,4 @@
-import { FlujoAltaNegocio } from '@/funcionalidades/alta-negocio/componentes/FlujoAltaNegocio';
+import { FlujoAltaNegocio } from '@/funcionalidades/alta-negocio/components/FlujoAltaNegocio';
 
 export default function AltaNegocio() {
   return <FlujoAltaNegocio />;

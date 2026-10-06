@@ -10,7 +10,7 @@ import { ResumenAltaNegocio } from './ResumenAltaNegocio';
 import {
   DatosAltaNegocio,
   HorarioAtencion,
-} from '../tipos';
+} from '../types';
 
 const horariosIniciales: HorarioAtencion[] = [
   {

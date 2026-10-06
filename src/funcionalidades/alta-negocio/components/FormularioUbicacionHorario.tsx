@@ -5,10 +5,10 @@ import {
   DireccionNegocio,
   ErroresUbicacionHorario,
   HorarioAtencion,
-} from '../tipos';
-import { validarUbicacionHorario } from '../validaciones';
+} from '../types';
+import { validarUbicacionHorario } from '../validators';
 
-interface PropiedadesFormularioUbicacionHorario {
+interface FormularioUbicacionHorarioProps {
   direccion: DireccionNegocio;
   horarios: HorarioAtencion[];
   alCambiarDireccion: (direccion: DireccionNegocio) => void;
@@ -35,7 +35,7 @@ export function FormularioUbicacionHorario({
   alCambiarHorarios,
   alRegresar,
   alContinuar,
-}: PropiedadesFormularioUbicacionHorario) {
+}: FormularioUbicacionHorarioProps) {
   const [errores, setErrores] =
     useState<ErroresUbicacionHorario>({});
 

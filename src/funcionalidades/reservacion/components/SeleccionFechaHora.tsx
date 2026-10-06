@@ -2,9 +2,9 @@
 
 import { FormEvent, useState } from 'react';
 import { horasDisponiblesMock, obtenerHorasOcupadas } from '../mocks';
-import { FechaDisponible } from '../tipos';
+import { FechaDisponible } from '../types';
 
-interface PropiedadesSeleccionFechaHora {
+interface SeleccionFechaHoraProps {
   idProfesional: string;
   fechaSeleccionada: string;
   horaSeleccionada: string;
@@ -53,7 +53,7 @@ export function SeleccionFechaHora({
   alSeleccionarHora,
   alRegresar,
   alContinuar,
-}: PropiedadesSeleccionFechaHora) {
+}: SeleccionFechaHoraProps) {
   const [fechas] = useState(generarFechasDisponibles);
   const [error, setError] = useState('');
   const indiceFecha = fechas.findIndex(

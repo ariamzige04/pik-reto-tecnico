@@ -1,9 +1,9 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { ServicioReservable } from '../tipos';
+import { ServicioReservable } from '../types';
 
-interface PropiedadesSeleccionServicio {
+interface SeleccionServicioProps {
   servicios: ServicioReservable[];
   idSeleccionado: string;
   alSeleccionar: (idServicio: string) => void;
@@ -23,7 +23,7 @@ export function SeleccionServicio({
   alSeleccionar,
   alRegresar,
   alContinuar,
-}: PropiedadesSeleccionServicio) {
+}: SeleccionServicioProps) {
   const [error, setError] = useState('');
 
   function manejarEnvio(evento: FormEvent<HTMLFormElement>) {

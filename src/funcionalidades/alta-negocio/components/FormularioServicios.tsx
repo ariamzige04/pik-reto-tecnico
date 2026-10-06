@@ -2,10 +2,10 @@
 
 import { FormEvent, useState } from 'react';
 import { generarIdentificador } from '../identificadores';
-import { ErroresServicio, Servicio } from '../tipos';
-import { validarServicio } from '../validaciones';
+import { ErroresServicio, Servicio } from '../types';
+import { validarServicio } from '../validators';
 
-interface PropiedadesFormularioServicios {
+interface FormularioServiciosProps {
   servicios: Servicio[];
   alCambiar: (servicios: Servicio[]) => void;
   alRegresar: () => void;
@@ -36,7 +36,7 @@ export function FormularioServicios({
   alCambiar,
   alRegresar,
   alContinuar,
-}: PropiedadesFormularioServicios) {
+}: FormularioServiciosProps) {
   const [campos, setCampos] = useState<CamposServicio>(camposIniciales);
   const [servicioEditandoId, setServicioEditandoId] = useState<
     string | null

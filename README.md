@@ -89,14 +89,14 @@ src/
 |   `-- page.tsx
 `-- funcionalidades/
     |-- alta-negocio/
-    |   |-- componentes/
+    |   |-- components/
     |   |-- identificadores.ts
-    |   |-- tipos.ts
-    |   `-- validaciones.ts
+    |   |-- types.ts
+    |   `-- validators.ts
     `-- reservacion/
-        |-- componentes/
+        |-- components/
         |-- mocks.ts
-        `-- tipos.ts
+        `-- types.ts
 ```
 
 Las rutas viven en `src/app` y se mantienen como Server Components sencillos. La lógica específica se agrupa por dominio en `src/funcionalidades`, lo que evita mezclar el alta con la reservación. Solo los componentes que necesitan estado, eventos o formularios usan Client Components.

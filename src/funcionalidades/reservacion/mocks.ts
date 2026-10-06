@@ -1,4 +1,4 @@
-import { NegocioReservable } from './tipos';
+import { NegocioReservable } from './types';
 
 export const negocioReservableMock: NegocioReservable = {
   nombre: 'Studio Nova',

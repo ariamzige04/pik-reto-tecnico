@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { negocioReservableMock } from '../mocks';
-import { DatosReservacion } from '../tipos';
+import { DatosReservacion } from '../types';
 import { PerfilNegocio } from './PerfilNegocio';
 import { ResumenReservacion } from './ResumenReservacion';
 import { SeleccionFechaHora } from './SeleccionFechaHora';

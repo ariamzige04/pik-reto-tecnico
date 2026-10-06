@@ -4,10 +4,10 @@ import { FormEvent, useState } from 'react';
 import {
   DatosNegocio,
   ErroresDatosNegocio,
-} from '../tipos';
-import { validarDatosNegocio } from '../validaciones';
+} from '../types';
+import { validarDatosNegocio } from '../validators';
 
-interface PropiedadesFormularioDatosNegocio {
+interface FormularioDatosNegocioProps {
   datos: DatosNegocio;
   alCambiar: (datos: DatosNegocio) => void;
   alContinuar: () => void;
@@ -18,7 +18,7 @@ export function FormularioDatosNegocio({
   datos,
   alCambiar,
   alContinuar,
-}: PropiedadesFormularioDatosNegocio) {
+}: FormularioDatosNegocioProps) {
   const [errores, setErrores] = useState<ErroresDatosNegocio>({});
 
   function manejarEnvio(evento: FormEvent<HTMLFormElement>) {

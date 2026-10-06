@@ -4,48 +4,23 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { StepHeader } from '@/shared/components/StepHeader';
 import { useStepFocus } from '@/shared/hooks/useStepFocus';
+import {
+  datosInicialesReservacion,
+  pasosReservacion,
+} from '../config';
 import { negocioReservableMock } from '../mocks';
-import { DatosReservacion } from '../types';
 import { PerfilNegocio } from './PerfilNegocio';
 import { ResumenReservacion } from './ResumenReservacion';
 import { SeleccionFechaHora } from './SeleccionFechaHora';
 import { SeleccionProfesional } from './SeleccionProfesional';
 import { SeleccionServicio } from './SeleccionServicio';
 
-const datosIniciales: DatosReservacion = {
-  idServicio: '',
-  idProfesional: '',
-  fecha: '',
-  hora: '',
-};
-
-const titulosPaso: Record<number, string> = {
-  1: 'Perfil del negocio',
-  2: 'Servicio',
-  3: 'Profesional',
-  4: 'Fecha y hora',
-  5: 'Resumen',
-};
-
-const encabezadosPaso: Record<number, string> = {
-  2: 'Elige un servicio',
-  3: 'Elige quién te atiende',
-  4: 'Elige fecha y hora',
-  5: 'Confirma tu cita',
-};
-
-const descripcionesPaso: Record<number, string> = {
-  2: 'Selecciona el servicio que deseas reservar.',
-  3: 'Estas personas pueden realizar el servicio seleccionado.',
-  4: 'Los horarios ocupados aparecen deshabilitados.',
-  5: 'Revisa los detalles antes de confirmar la reservación.',
-};
-
 /** coordina el flujo y conserva las selecciones al regresar */
 export function FlujoReservacion() {
   const [pasoActual, setPasoActual] = useState(1);
-  const [datos, setDatos] = useState<DatosReservacion>(datosIniciales);
+  const [datos, setDatos] = useState(datosInicialesReservacion);
   const contenedorFlujoRef = useStepFocus(pasoActual);
+  const configuracionPaso = pasosReservacion[pasoActual - 1];
 
   const servicioSeleccionado = negocioReservableMock.servicios.find(
     (servicio) => servicio.id === datos.idServicio
@@ -82,8 +57,8 @@ export function FlujoReservacion() {
       <section className="mt-6">
         <StepHeader
           pasoActual={pasoActual}
-          totalPasos={5}
-          etiqueta={titulosPaso[pasoActual]}
+          totalPasos={pasosReservacion.length}
+          etiqueta={configuracionPaso.etiqueta}
         />
 
         {pasoActual > 1 && (
@@ -92,10 +67,10 @@ export function FlujoReservacion() {
               tabIndex={-1}
               className="text-3xl font-bold tracking-tight text-zinc-950 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-950"
             >
-              {encabezadosPaso[pasoActual]}
+              {configuracionPaso.titulo}
             </h1>
             <p className="mt-3 leading-7 text-zinc-600">
-              {descripcionesPaso[pasoActual]}
+              {configuracionPaso.descripcion}
             </p>
           </header>
         )}
